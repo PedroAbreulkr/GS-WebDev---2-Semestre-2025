@@ -1,107 +1,224 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
-import Header from './components/Header'
-import Hero from './components/Hero'
-import Filtros from './components/Filtros'
-import ListaProfissionais from './components/ListaProfissionais'
-import ModalPerfil from './components/ModalPerfil'
-import gerarProfissionais from './data/profissionaisData'
-import About from './pages/About'
-import Contact from './pages/Contact'
+:root {
+  --bg: #f5f5f5;
+  --card: #ffffff;
+  --muted: #444;
+  --accent: #111;
+  --accent-strong: #000;
+  --border-hard: #000;
+  --shadow-hard: 6px 6px 0 #000;
+  --transition: 0.22s ease;
+  --font-head: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --font-body: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
 
-export default function App() {
-  const [darkMode, setDarkMode] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedArea, setSelectedArea] = useState('')
-  const [selectedCity, setSelectedCity] = useState('')
-  const [selectedTech, setSelectedTech] = useState('')
-  const [selectedProfile, setSelectedProfile] = useState(null)
-  const [showMessage, setShowMessage] = useState(false)
+.dark {
+  --bg: #0b0b0c;
+  --card: #161616;
+  --muted: #c7c7c7;
+  --accent: #f2f2f2;
+  --accent-strong: #ffffff;
+  --border-hard: #ffffff;
+  --shadow-hard: 6px 6px 0 #fff;
+  color: var(--accent-strong);
+}
 
-  const profissionais = useMemo(() => gerarProfissionais(), [])
+* { box-sizing: border-box; }
 
-  const areas = [...new Set(profissionais.map(p => p.area))]
-  const cidades = [...new Set(profissionais.map(p => p.localizacao))]
-  const tecnologias = [...new Set(profissionais.flatMap(p => p.habilidadesTecnicas))]
+html,body,#root { height:100%; }
 
-  const profissionaisFiltrados = useMemo(() => {
-    return profissionais.filter(prof => {
-      const q = searchTerm.toLowerCase()
-      const matchSearch =
-        prof.nome.toLowerCase().includes(q) ||
-        prof.cargo.toLowerCase().includes(q)
-      const matchArea = !selectedArea || prof.area === selectedArea
-      const matchCity = !selectedCity || prof.localizacao === selectedCity
-      const matchTech = !selectedTech || prof.habilidadesTecnicas.includes(selectedTech)
-      return matchSearch && matchArea && matchCity && matchTech
-    })
-  }, [profissionais, searchTerm, selectedArea, selectedCity, selectedTech])
+body {
+  margin:0;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--accent-strong);
+  transition: background var(--transition), color var(--transition);
+  -webkit-font-smoothing: antialiased;
+}
 
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode)
-  }, [darkMode])
+.app-root { min-height:100vh; display:flex; flex-direction:column; }
 
-  const handleRecommend = (prof) => {
-    setShowMessage(true)
-    setTimeout(() => setShowMessage(false), 1800)
-  }
+.header {
+  background: var(--card);
+  border-bottom: 3px solid var(--border-hard);
+  padding: 12px 0;
+  position: sticky;
+  top:0;
+  z-index:40;
+}
 
-  const handleSendMessage = (prof) => {
-    setShowMessage(true)
-    setTimeout(() => setShowMessage(false), 1800)
-  }
+.header-inner {
+  max-width:1200px;
+  margin:0 auto;
+  padding:12px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-  const location = useLocation()
+.brand h1 {
+  margin:0;
+  font-family: var(--font-head);
+  font-weight:900;
+  letter-spacing:-1px;
+  color: var(--accent-strong);
+}
 
-  return (
-    <div className="app-root">
-      <Header darkMode={darkMode} setDarkMode={setDarkMode} />
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={
-          <>
-            <Hero profissionaisCount={profissionais.length} areasCount={areas.length} cidadesCount={cidades.length} />
-            <main className="container">
-              <Filtros
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                selectedArea={selectedArea}
-                setSelectedArea={setSelectedArea}
-                selectedCity={selectedCity}
-                setSelectedCity={setSelectedCity}
-                selectedTech={selectedTech}
-                setSelectedTech={setSelectedTech}
-                areas={areas}
-                cidades={cidades}
-                tecnologias={tecnologias}
-                resultadosCount={profissionaisFiltrados.length}
-              />
-              <ListaProfissionais profissionais={profissionaisFiltrados} setSelectedProfile={setSelectedProfile} />
-            </main>
-          </>
-        }/>
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+.header .nav-link {
+  text-decoration:none;
+  color: var(--muted);
+  font-weight:800;
+  padding:6px 8px;
+  border-radius:6px;
+  font-family: var(--font-body);
+}
 
-      {selectedProfile && (
-        <ModalPerfil
-          profile={selectedProfile}
-          onClose={() => setSelectedProfile(null)}
-          onRecommend={() => handleRecommend(selectedProfile)}
-          onSendMessage={() => handleSendMessage(selectedProfile)}
-        />
-      )}
+.header .nav-active {
+  color: var(--accent-strong);
+  border-bottom: 3px solid var(--border-hard);
+  padding-bottom:6px;
+  font-size: 1.03rem;
+}
 
-      {showMessage && (
-        <div className="success-popup">Mensagem enviada com sucesso!</div>
-      )}
+.btn-toggle {
+  background: var(--card);
+  border: 3px solid var(--border-hard);
+  width:44px;
+  height:44px;
+  border-radius:8px;
+  cursor:pointer;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  box-shadow: var(--shadow-hard);
+  transition: transform 0.28s var(--transition);
+  color: var(--accent-strong);
+  position: relative;
+}
 
-      <footer className="site-footer">
-        <div className="footer-inner">
-          <div className="footer-brand">WorkFuture</div>
-          <div className="footer-links">© 2025 WorkFuture — Global Solution • FIAP</div>
-        </div>
-      </footer>
-    </div>
-  )
+.btn-toggle.dm-off::before { content: "☾"; font-size:18px; }
+.btn-toggle.dm-on::before { content: "☀"; font-size:18px; }
+
+.btn-toggle:hover { transform: translateY(-3px) scale(1.03); }
+
+.hero {
+  background: var(--accent);
+  color: var(--bg);
+  padding: 42px 0;
+  border-bottom: 3px solid var(--border-hard);
+}
+
+.hero-inner { max-width:1200px; margin:0 auto; text-align:center; padding:0 16px; }
+.hero-title { margin:0; font-family:var(--font-head); font-size:32px; font-weight:900; }
+.hero-sub { margin-top:10px; opacity:0.88; }
+
+.hero-metrics { display:flex; gap:34px; justify-content:center; margin-top:18px; }
+.hero-num { font-size:28px; font-weight:900; }
+
+.home-doc { margin-top:18px; font-weight:700; }
+.home-doc-bold { font-weight:900; }
+
+.container { max-width:1200px; margin:0 auto; padding:28px 16px; flex:1; width:100%; }
+
+.filtros { background:var(--card); padding:18px; border-radius:6px; box-shadow:var(--shadow-hard); border:3px solid var(--border-hard); margin-bottom:20px; }
+.filtros-grid { display:grid; grid-template-columns: 1fr 160px 160px 160px; gap:12px; align-items:center; }
+.filtros input, .filtros select { padding:12px 14px; font-size:15px; border:3px solid var(--border-hard); border-radius:6px; background:var(--card); color:var(--accent-strong); height:46px; font-weight:700; }
+.result-count { margin-top:10px; color:var(--muted); font-weight:700; }
+
+.grid-cards { display:grid; grid-template-columns: repeat(3,1fr); gap:20px; max-width:1200px; margin:0 auto; }
+
+.card {
+  background:var(--card);
+  padding:16px;
+  border-radius:6px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  border:3px solid var(--border-hard);
+  box-shadow:var(--shadow-hard);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor:pointer;
+  min-height:180px;
+}
+
+.card:hover { transform: translate(-6px,-6px); box-shadow: calc(var(--shadow-hard)); }
+
+.card-body { display:flex; gap:12px; align-items:flex-start; }
+.card-title { font-size:18px; font-weight:900; margin:0; color:var(--accent-strong); font-family:var(--font-head); }
+.card-sub { margin:4px 0; color:var(--muted); font-size:14px; font-weight:700; }
+.card-resumo { font-size:13px; color:var(--muted); }
+
+.tag-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+.tag { background: var(--accent); color: var(--bg); padding:8px 12px; font-size:12px; border-radius:4px; font-weight:800; }
+.extra-count { background: transparent; color: var(--accent-strong); border: 3px solid var(--border-hard); padding:6px 10px; }
+
+.avatar { width:70px; height:70px; border:3px solid var(--border-hard); object-fit:cover; border-radius:6px; }
+.avatar-large { width:76px; height:76px; border:3px solid var(--border-hard); object-fit:cover; border-radius:6px; }
+
+.modal-backdrop { position:fixed; inset:0; background: rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; padding:18px; z-index:200; }
+.modal { width:100%; max-width:640px; max-height:86vh; background:var(--card); border:3px solid var(--border-hard); box-shadow:var(--shadow-hard); border-radius:8px; overflow-y:auto; }
+.modal-header { display:flex; justify-content:space-between; align-items:center; padding:16px; border-bottom:3px solid var(--border-hard); }
+.modal-content { padding:16px; color: var(--accent-strong); }
+.dark .modal-content { color: var(--accent); }
+
+.btn { padding:12px 18px; border:3px solid var(--border-hard); border-radius:6px; background:var(--bg); font-weight:900; cursor:pointer; box-shadow:var(--shadow-hard); transition: transform 0.12s ease; font-size:14px; }
+.btn:hover { transform: translate(-4px,-4px); }
+
+.btn.primary { background: var(--accent); color: var(--bg); }
+.dark .btn.primary { background: var(--accent-strong); color: #000; }
+
+.btn-close { border:none; background:transparent; font-size:26px; cursor:pointer; color:var(--accent-strong); transition: transform .12s; }
+.btn-close:hover { transform: scale(1.15); }
+
+.exp { background: rgba(0,0,0,0.05); padding:12px; border-radius:6px; }
+.dark .exp { background: rgba(255,255,255,0.04); }
+
+.spaced { display:flex; flex-wrap:wrap; gap:12px; margin:10px 0; }
+.spaced-actions { display:flex; gap:16px; margin-top:22px; padding-top:12px; }
+
+.message-box { margin-top:18px; padding-top:12px; border-top:2px dashed var(--border-hard); display:flex; flex-direction:column; gap:12px; }
+.message-box textarea { width:100%; height:120px; padding:12px; border:3px solid var(--border-hard); background:var(--card); color:var(--accent-strong); font-size:15px; border-radius:6px; resize:vertical; }
+.message-box textarea:focus { outline:none; border-color:var(--accent); }
+
+.link-btn { display:inline-block; padding:6px 10px; border-radius:6px; border:2px solid var(--border-hard); background:transparent; color:var(--accent-strong); text-decoration:none; font-weight:700; font-family:var(--font-body); }
+.link-btn:hover { transform: translateY(-2px); }
+
+.message-sent { padding:12px 16px; background:var(--accent); color:var(--bg); font-weight:900; border-radius:6px; margin-top:14px; text-align:center; animation: fadeInUp .3s ease-out; }
+.dark .message-sent { background: var(--accent-strong); color:#000; }
+
+.success-popup { position: fixed; top:16px; right:16px; background: var(--accent); color: var(--bg); padding:12px 18px; border:3px solid var(--border-hard); box-shadow:var(--shadow-hard); border-radius:8px; font-weight:900; z-index:1000; animation: popIn .28s ease-out; }
+.dark .success-popup { background: var(--accent-strong); color:#000; }
+
+.card-anim { opacity:0; transform: translateY(10px) scale(.995); animation: cardIn 420ms cubic-bezier(.16,.84,.33,1) both; }
+
+@keyframes cardIn { from { opacity:0; transform: translateY(18px) scale(.98); } to { opacity:1; transform: translateY(0) scale(1); } }
+@keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+@keyframes fadeOut { from { opacity:1 } to { opacity:0 } }
+@keyframes popIn { from { transform: scale(.9) translateY(10px); opacity:0 } to { transform: scale(1) translateY(0); opacity:1 } }
+@keyframes popOut { from { transform: scale(1); opacity:1 } to { transform: scale(.9); opacity:0 } }
+@keyframes fadeInUp { from { opacity:0; transform: translateY(10px) } to { opacity:1; transform: translateY(0) } }
+
+.finput, .ftextarea { padding:12px; border-radius:6px; border:3px solid var(--border-hard); font-size:15px; }
+.ftextarea { min-height:120px; resize:vertical; }
+
+.page { padding:32px; max-width:1000px; margin:0 auto; }
+
+.site-footer { padding:22px 16px; background:var(--card); border-top:3px solid var(--border-hard); margin-top:24px; }
+.footer-inner { max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+
+@media (max-width:980px) {
+  .grid-cards { grid-template-columns: repeat(2,1fr); }
+  .filtros-grid { grid-template-columns: 1fr 1fr; }
+  .hero-metrics { gap:20px; }
+  .hero-inner { padding:0 12px; }
+}
+
+@media (max-width:640px) {
+  .grid-cards { grid-template-columns: 1fr; }
+  .filtros-grid { grid-template-columns: 1fr; }
+  .filtros { padding:14px; }
+  .card { padding:12px; }
+  .avatar { width:64px; height:64px; }
+  .avatar-large { width:64px; height:64px; }
+  .modal { max-width:96%; max-height:88vh; }
+  .btn-toggle { width:40px; height:40px; }
 }
