@@ -1,31 +1,57 @@
-# WorkFuture
+# Projeto – Sistema de Monitoramento de Enchentes e Prevenção
 
-Projeto desenvolvido para a Global Solution da FIAP, focado em criar uma plataforma para busca e visualização de profissionais, suas habilidades e perfis completos.
+## 📌 Resumo do Projeto
+Este projeto é uma aplicação **React** desenvolvida para monitoramento do nível de rios em áreas de risco, auxiliando na prevenção de enchentes.  
+A aplicação exibe indicadores de risco, apresenta alertas e orienta ações de emergência.  
+Também inclui um quiz educativo com 10 perguntas sobre prevenção de enchentes, integrado ao site FloodGuard Tech.
 
-## Objetivo
-Criar um site responsivo que permite:
-- Buscar profissionais por nome ou cargo
-- Filtrar por área, cidade e tecnologia
-- Visualizar perfis completos em um modal
-- Navegar entre páginas (Home, About, Contact)
+---
 
-## Funcionalidades
-- Filtros dinâmicos
-- Cards de profissionais
-- Modal detalhado
-- Modo claro/escuro
-- Sistema de rotas (React Router)
-- Formulário de contato
-- Dados reais + dados gerados automaticamente
+## 🔧 Instalação do Projeto – Passo a Passo
 
-## Tecnologias Utilizadas
-- React
-- Vite
-- React Router DOM
-- CSS
-- JavaScript ES6
+1. **Clone o repositório**
 
-## Como rodar
-```bash
-npm install
-npm run dev
+   ```bash
+   git clone https://github.com/PedroAbreulkr/GS-WebDev---2-Semestre-2025
+````
+
+2. **Acesse o diretório**
+
+   ```bash
+   cd GS-WebDev---2-Semestre-2025
+   ```
+
+3. **Instale as dependências**
+
+   ```bash
+   npm install
+   ```
+
+4. **Execute o projeto em modo de desenvolvimento**
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Abra no navegador**
+
+   ```
+   http://localhost:5173
+   ```
+
+*(Porta padrão do Vite.)*
+
+---
+
+## 🔗 Link do Repositório
+
+[https://github.com/PedroAbreulkr/GS-WebDev---2-Semestre-2025](https://github.com/PedroAbreulkr/GS-WebDev---2-Semestre-2025)
+
+---
+
+## 👥 Integrantes do Grupo
+
+| Nome                           | RM     |
+| ------------------------------ | ------ |
+| Pedro Henrique Araujo de Abreu | 561924 |
+| Leonardo Borges da Costa       | 565966 |
