@@ -79,6 +79,14 @@ https://github.com/PedroAbreulkr/GS-WebDev---2-Semestre-2025
 
 ------------------------------------------------------------------------
 
+## 🚀 Deploy
+
+Acesse o projeto online pelo link:
+
+https://gs-web-dev-2-semestre-2025-rtpq.vercel.app
+
+------------------------------------------------------------------------
+
 ## 👥 Integrantes do Grupo
 
   Nome                             RM
@@ -86,5 +94,3 @@ https://github.com/PedroAbreulkr/GS-WebDev---2-Semestre-2025
   Pedro Henrique Araujo de Abreu   561924
   
   Leonardo Borges da Costa         565966
-
-
