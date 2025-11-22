@@ -52,7 +52,7 @@ informações.
 2.  **Acesse o diretório**
 
     ``` bash
-    cd GS-WebDev---2-Semestre-2025
+    cd workfuture
     ```
 
 3.  **Instale as dependências**
@@ -85,3 +85,4 @@ https://github.com/PedroAbreulkr/GS-WebDev---2-Semestre-2025
   -------------------------------- --------
   Pedro Henrique Araujo de Abreu   561924
   Leonardo Borges da Costa         565966
+
